@@ -1,0 +1,48 @@
+POST http://localhost:3000/api/wilders
+Content-Type: application/json
+
+{
+  "name": "This is a new wilder"
+}
+
+###
+
+POST http://localhost:3000/api/skills
+Content-Type: application/json
+
+{
+  "name": "Stamina"
+}
+
+###
+
+GET http://localhost:3000/api/wilders/35
+
+###
+
+GET http://localhost:3000/api/wilders
+
+###
+
+DELETE http://localhost:3000/api/wilders/35
+
+###
+
+PUT http://localhost:3000/api/wilders/8
+Content-Type: application/json
+
+{
+  "name": "zrqeoughpoirzeqjfiogjzprqeogjfoizeqjfiojgzioqrejhgfpiozejFIJZEIfhgpo"
+}
+
+###
+POST http://localhost:3000/api/wilders/8/skills
+Content-Type: application/json
+
+{
+  "name": "Stamina"
+}
+
+###
+
+DELETE http://localhost:3000/api/wilders/8/skills/3
