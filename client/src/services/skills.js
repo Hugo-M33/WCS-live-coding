@@ -5,7 +5,7 @@ export const getSkills = async () => {
 }
 
 export const createSkill = async (name) => {
-    return await APIClient.post('/skills').then(v => v.data)
+    return await APIClient.post('/skills', {name}).then(v => v.data)
 }
 
 export const deleteSkill = async (id) => {

@@ -1,16 +1,14 @@
-import {useState, useEffect, useContext} from 'react'
-import { SkillsContext } from '../pages/Home';
+import {useState, useEffect} from 'react'
 import {addSkillToWilder, removeSkillFromWilder} from "../services/wilders";
+import useWilder from "../hooks/useWilder";
 
 const SkillPicker = ({wilderId}) => {
     const [open, setOpen] = useState(false)
-    const {skills, updateSkills, updateWilders} = useContext(SkillsContext)
-
+    const {skills, updateSkills, updateWilders} = useWilder()
 
     const addSkill = async (e) => {
         e.preventDefault();
         const {id} = (Object.fromEntries(new FormData(e.target)))
-        console.log(id)
         await addSkillToWilder(wilderId, id)
         await updateWilders();
         setOpen(false)

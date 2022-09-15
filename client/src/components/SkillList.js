@@ -1,22 +1,22 @@
-import { useContext } from "react";
-import { SkillsContext } from "../pages/Home";
 import Skill from "./Skill";
-import {createSkill} from "../services/skills";
+import {createSkill, deleteSkill as deleteSkillFromServer} from "../services/skills";
+import useWilder from "../hooks/useWilder";
 
 const SkillList = () => {
+    const {skills, updateSkills, updateWilders} = useWilder()
+
     const newSkill = async (event) => {
         event.preventDefault();
         const data = Object.fromEntries(new FormData(event.target));
         await createSkill(data.name)
         updateSkills();
     }
+
     const deleteSkill = async (id) => {
-        await deleteSkill(id)
+        await deleteSkillFromServer(id)
         updateSkills()
         updateWilders()
     }
-
-    const {skills, updateSkills, updateWilders} = useContext(SkillsContext)
 
     return (
         <aside className="skill-picker card">
@@ -25,7 +25,7 @@ const SkillList = () => {
                 <button className="button" type="submit">OK</button>
             </form>
             <ul className="skills">
-                {skills.map(sk => (
+                {skills?.map(sk => (
                     <Skill key={`#skill${sk.id}`} name={sk.name} id={sk.id} noLevel onClose={deleteSkill}/>
                 ))}
             </ul>
