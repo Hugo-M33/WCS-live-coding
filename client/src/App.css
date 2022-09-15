@@ -137,4 +137,9 @@ footer {
   right: 12px;
   top: 50%;
   transform: translateY(-50%);
+  max-width: 20vw;
+}
+
+.skill-picker form {
+  margin: 5px auto;
 }

@@ -1,6 +1,8 @@
 import { createContext, useEffect, useState } from "react";
 import SkillList from "../components/SkillList";
 import Wilder from "../components/Wilder";
+import {getWilders} from "../services/wilders";
+import {getSkills} from "../services/skills";
 
 export const SkillsContext = createContext({});
 
@@ -8,21 +10,18 @@ const Homepage = () => {
   const [skills, setSkills] = useState([]);
   const [wilders, setWilders] = useState([]);
   const updateSkills = async () => {
-    const response = await fetch("http://localhost:3000/api/skills").then((s) =>
-      s.json()
-    );
-    setSkills(response);
+    const skillsList = await getSkills()
+    setSkills(skillsList);
   };
   const updateWilders = async () => {
-    const response = await fetch("http://localhost:3000/api/wilders").then(
-      (s) => s.json()
-    );
-    setWilders(response);
+    const wildersList = await getWilders()
+    setWilders(wildersList);
   };
   useEffect(() => {
     updateWilders();
     updateSkills();
   }, []);
+
   return (
     <main className="container">
       <h2>Wilders</h2>

@@ -6,8 +6,8 @@ const {assertName, parseId} = require('./middlewares');
 const cors = require('cors')
 
 const app = express();
-app.use(express.json(), parseId)
 app.use(cors())
+app.use(express.json(), parseId)
 
 app.route('/api/wilders')
 .get(wilderController.getWilders)
@@ -23,6 +23,10 @@ app.route('/api/skills')
 .get(skillController.getSkills)
 .post(assertName, skillController.createSkill)
 .delete(skillController.deleteSkills)
+
+app.route('/api/skills/:id')
+    .get(skillController.getSkill)
+    .delete(skillController.deleteSkill)
 
 app.route('/api/wilders/:id')
 .get(skillController.getSkill)
