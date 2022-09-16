@@ -48,6 +48,7 @@ module.exports = {
         return res.send("All wilders deleted");
     },
     addSkill: async (req, res) => {
+        console.log(req.body)
         const {id: wilderId} = req.params;
         const {id} = req.body;
         const wilder = await dataSource.getRepository(Wilder).findOne({where: {id: wilderId}});

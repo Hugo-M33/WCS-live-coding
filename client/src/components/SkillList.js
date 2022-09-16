@@ -19,6 +19,7 @@ const SkillList = () => {
         updateWilders()
     }
 
+
     return (
         <aside className="skill-picker card">
             <form onSubmit={newSkill} autocomplete="off">
@@ -27,7 +28,8 @@ const SkillList = () => {
             </form>
             <ul className="skills">
                 {skills?.map(sk => (
-                    <Skill key={`#skill${sk.id}`} name={sk.name} id={sk.id} noLevel onClose={deleteSkill}/>
+                    <Skill draggableType={'LIST_SKILL'} key={`#skill${sk.id}`} name={sk.name} id={sk.id} noLevel
+                           onClose={deleteSkill}/>
                 ))}
             </ul>
         </aside>
