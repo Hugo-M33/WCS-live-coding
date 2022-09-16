@@ -1,6 +1,7 @@
 import Skill from "./Skill";
 import {createSkill, deleteSkill as deleteSkillFromServer} from "../services/skills";
 import useWilder from "../hooks/useWilder";
+import Submit from "./Submit";
 
 const SkillList = () => {
     const {skills, updateSkills, updateWilders} = useWilder()
@@ -20,9 +21,9 @@ const SkillList = () => {
 
     return (
         <aside className="skill-picker card">
-            <form onSubmit={newSkill}>
+            <form onSubmit={newSkill} autocomplete="off">
                 <input type="text" placeholder="React" name="name"/>
-                <button className="button" type="submit">OK</button>
+                <Submit>OK</Submit>
             </form>
             <ul className="skills">
                 {skills?.map(sk => (

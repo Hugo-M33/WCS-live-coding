@@ -1,29 +1,30 @@
 import Skill from "./Skill"
-import blank_picture from '../assets/black_picture.png'
 import SkillPicker from "./SkillPicker"
+import CrossButton from "./CrossButton";
+import useWilder from "../hooks/useWilder";
+import blank_picture from "../assets/black_picture.png"
 
 
-const Wilder = ({id, name, skills}) => {
+const Wilder = ({wilder}) => {
+    const {id, name, skills, description} = wilder;
+    console.log(wilder)
+    const {deleteWilder} = useWilder()
     return (
-            <article className="card">
-            <img src={blank_picture} alt="Jane Doe Profile" />
+        <article className="card">
+            <CrossButton className={"delete-wilder-btn"} onClick={() => deleteWilder(id)}>X</CrossButton>
+            <img src={blank_picture} alt="Jane Doe Profile"/>
             <h3>{name}</h3>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat.
+                {description || <i>No description...</i>}
             </p>
             <h4>Wild Skills</h4>
             <ul className="skills">
-            {skills?.map((skill) => (
-                <Skill key={`#skill${skill.id}`} name={skill.name} level={skill.level} />
-            ))}
+                {skills?.map((skill) => (
+                    <Skill key={`#skill${skill.id}`} name={skill.name} level={skill.level}/>
+                ))}
             </ul>
-            <div style={{display: 'flex'}}>
-              <SkillPicker wilderId={id}/>
-            </div>
-            </article>
+            <SkillPicker wilderId={id}/>
+        </article>
     )
 }
 export default Wilder
