@@ -206,3 +206,12 @@ footer {
 .input.large {
     width: 120ch;
 }
+
+.drop-zone-trash {
+    position: fixed;
+    right: 50px;
+    bottom: 50px;
+    border-radius: 8px;
+    border: solid 2px #F76C6C;
+    padding: 2em 4em;
+}

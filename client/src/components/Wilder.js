@@ -51,7 +51,10 @@ const Wilder = ({wilder}) => {
             <h4>Wild Skills</h4>
             <ul className="skills">
                 {skills?.map((skill) => (
-                    <Skill key={`#skill${skill.id}`} name={skill.name} level={skill.level}/>
+                    <Skill draggableType={"WILDER_SKILLS"} draggableProps={{wilder}} key={`#skill${skill.id}`}
+                           name={skill.name}
+                           level={skill.level}
+                           id={skill.id}/>
                 ))}
             </ul>
             <SkillPicker wilderId={id}/>

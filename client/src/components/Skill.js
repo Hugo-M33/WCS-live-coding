@@ -1,11 +1,11 @@
 import CrossButton from "./CrossButton";
 import {useDrag} from "react-dnd";
 
-const Skill = ({name, level, noLevel, onClose, id, draggableType}) => {
+const Skill = ({name, level, noLevel, onClose, id, draggableType, draggableProps}) => {
     const [{isDragging}, drag, dragPreview] = useDrag(() => ({
         // "type" is required. It is used by the "accept" specification of drop targets.
         type: draggableType || 'NULL',
-        item: {skill: {name, id}},
+        item: {skill: {name, id}, ...draggableProps},
         // The collect function utilizes a "monitor" instance (see the Overview for what this is)
         // to pull important pieces of state from the DnD system.
         collect: (monitor) => ({
