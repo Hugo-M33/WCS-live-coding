@@ -31,7 +31,7 @@ const Homepage = () => {
 
     return (
         <main className="container">
-            {canDrop && <div ref={drop} className="drop-zone-trash">Add Skill</div>}
+            {canDrop && <div ref={drop} className="drop-zone-trash">Remove</div>}
             <NewWilderForm/>
             <h2>Wilders</h2>
             <section className="card-row">
