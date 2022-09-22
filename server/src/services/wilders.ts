@@ -2,8 +2,11 @@ import {dataSource} from "../db/index.js";
 import Wilder from "../entity/Wilder.js";
 import {DeleteResult} from "typeorm";
 
-export function createWilder(partialEntity: { name: string, description?: string }): Wilder {
-    return dataSource.getRepository(Wilder).create(partialEntity)
+export async function createWilder(partialEntity: { name: string, description?: string }): Promise<Wilder> {
+    const repo = dataSource.getRepository(Wilder)
+    console.log(partialEntity)
+    const wilder = repo.create(partialEntity)
+    return repo.save(wilder)
 }
 
 export async function getWilderById(id: number): Promise<Wilder | null> {

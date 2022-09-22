@@ -26,6 +26,7 @@ const wilderController: Controller = {
         return res.json(reformatWilders(...wilders));
     },
     createWilder: async (req, res) => {
+        console.log("wilder", req.body)
         const newWilder = createWilder(req.body)
         return res.json(newWilder);
 

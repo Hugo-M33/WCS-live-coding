@@ -14,4 +14,5 @@ export default class Wilder {
 
     @OneToMany(() => SkillToWilder, (sTw: SkillToWilder) => sTw.wilder)
     public grades!: Relation<SkillToWilder>[]
+
 }
