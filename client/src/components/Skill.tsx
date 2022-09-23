@@ -1,8 +1,25 @@
 import CrossButton from "./CrossButton";
 import {useDrag} from "react-dnd";
+import {IGrade, ISkill, IWilder} from "../types/interfaces";
 
-const Skill = ({name, level, noLevel, onClose, id, draggableType, draggableProps}) => {
-    const [{isDragging}, drag, dragPreview] = useDrag(() => ({
+interface ISkillProps extends Omit<IGrade, "level"> {
+    level?: number | string
+    noLevel?: boolean
+    onClose?: (id: number | string) => void
+    draggableType?: string
+    draggableProps?: {
+        wilder: IWilder,
+        [key: string]: any
+    }
+}
+
+export interface DragSkillItem extends Pick<ISkillProps, "draggableProps"> {
+    skill: ISkill
+    wilder: IWilder
+}
+
+const Skill = ({name, level, noLevel, onClose, id, draggableType, draggableProps}: ISkillProps) => {
+    const [{isDragging}, drag] = useDrag(() => ({
         // "type" is required. It is used by the "accept" specification of drop targets.
         type: draggableType || 'NULL',
         item: {skill: {name, id}, ...draggableProps},
@@ -21,4 +38,5 @@ const Skill = ({name, level, noLevel, onClose, id, draggableType, draggableProps
     );
 };
 
-export default Skill;
+// @ts-ignore
+export default Skill

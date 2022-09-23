@@ -1,33 +1,41 @@
 import Submit from "./Submit";
-import useWilder from "../hooks/useWilder";
-import {useState} from "react";
+import useWilder, {ActionType} from "../hooks/useWilder";
+import {FormEventHandler, useState} from "react";
 import AsyncSelect from "react-select/async";
+import {MultiValue} from "react-select";
+
+interface ISelectOption {
+    value: string | number
+    label: string
+}
 
 const NewWilderForm = () => {
-    const {skills, createWilder} = useWilder()
-    const [selectedSkills, setSelectedSkills] = useState([])
-    const handleSubmit = (e) => {
+    const {skills, dispatch} = useWilder()
+    const [selectedSkills, setSelectedSkills] = useState<MultiValue<ISelectOption>>([])
+    const handleSubmit: FormEventHandler<HTMLFormElement> = (e) => {
         e.preventDefault()
-        let data = Object.fromEntries(new FormData(e.target))
+        let data = Object.fromEntries(new FormData(e.target as HTMLFormElement))
         const skills_format = selectedSkills.map(sk => {
-            const formatted = {id: sk.value, level: parseInt(data[`skills[${sk.value}][level]`])}
+            const formatted = {id: sk.value, level: parseInt(data[`skills[${sk.value}][level]`] as string)}
             delete data[`skills[${sk.value}][level]`]
             return formatted
         })
+        // @ts-ignore
         data = {...data, skills: skills_format}
-        createWilder(data)
+        // @ts-ignore
+        dispatch({type: ActionType.CREATE_WILDER, payload: {wilder: data}})
     }
     return (
         <section>
             <h2>New Wilder</h2>
-            <form onSubmit={handleSubmit} autocomplete="off">
+            <form onSubmit={handleSubmit} autoComplete="off">
                 <input className={"input "} required name={"name"} type="text" placeholder="Jane Doe"/>
                 <input className={"input large"} name={"description"} type="textarea"
                        placeholder="Description..."/>
                 <AsyncSelect placeholder={"Skills"}
                              isMulti cacheOptions
                              defaultOptions={skills.map(s => ({value: s.id, label: s.name}))}
-                             onChange={setSelectedSkills}/>
+                             onChange={(newValue) => setSelectedSkills(newValue)}/>
                 {selectedSkills.length ? <fieldset>
                     <legend>Skills</legend>
                     {selectedSkills.map(ss => (
@@ -43,12 +51,4 @@ const NewWilderForm = () => {
         </section>
     )
 }
-
-const Option = ({value, children}) => {
-    const [selected, setSelected] = useState(false)
-    return (
-        <option value={value} selected={selected}>{children}</option>
-    )
-}
-
 export default NewWilderForm

@@ -1,28 +1,30 @@
-import Skill from "./Skill"
+import Skill, {DragSkillItem} from "./Skill"
 import SkillPicker from "./SkillPicker"
 import CrossButton from "./CrossButton";
-import useWilder from "../hooks/useWilder";
-import blank_picture from "../assets/black_picture.png"
+import useWilder, {ActionType} from "../hooks/useWilder";
 import {useEffect, useState} from "react";
 import axios from "axios";
 import {useDrop} from "react-dnd";
 import APIClient from "../services/APIClient";
+import {IWilder} from "../types/interfaces";
 
+interface IWilderProps {
+    wilder: IWilder
+}
 
-const Wilder = ({wilder}) => {
+const Wilder = ({wilder}: IWilderProps) => {
     const {id, name, skills, description} = wilder;
-    const [picture, setPicture] = useState(blank_picture);
+    const [picture, setPicture] = useState("../assets/black_picture.png");
 
-    const [{canDrop, isOver}, drop] = useDrop(() => ({
+    const [{canDrop}, drop] = useDrop(() => ({
         // The type (or types) to accept - strings or symbols
         accept: 'LIST_SKILL',
-        drop: (item) => {
+        drop: (item: DragSkillItem) => {
             APIClient.post(`/wilders/${id}/skills`, {...item.skill})
-                .then(() => updateWilders())
+                .then(() => dispatch({type: ActionType.UPDATE_SKILLS, payload: {}}))
         },
         // Props to collect
         collect: (monitor) => ({
-            isOver: monitor.isOver(),
             canDrop: monitor.canDrop(),
         })
     }))
@@ -37,12 +39,13 @@ const Wilder = ({wilder}) => {
             setPicture(p)
         }
         getPic()
-    }, [])
-    const {deleteWilder, updateWilders} = useWilder()
+    }, [name])
+    const {dispatch} = useWilder()
     return (
         <article ref={drop} className="card">
             {canDrop && <div className="drop-zone">Add Skill</div>}
-            <CrossButton className={"delete-wilder-btn"} onClick={() => deleteWilder(id)}>X</CrossButton>
+            <CrossButton className={"delete-wilder-btn"}
+                         onClick={() => dispatch({type: ActionType.DELETE_WILDER, payload: {id}})}>X</CrossButton>
             <img src={picture} alt="Jane Doe Profile"/>
             <h3>{name}</h3>
             <p>

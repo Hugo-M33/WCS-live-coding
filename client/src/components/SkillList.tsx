@@ -1,28 +1,29 @@
 import Skill from "./Skill";
 import {createSkill, deleteSkill as deleteSkillFromServer} from "../services/skills";
-import useWilder from "../hooks/useWilder";
+import useWilder, {ActionType} from "../hooks/useWilder";
 import Submit from "./Submit";
+import {FormEventHandler} from "react";
 
 const SkillList = () => {
-    const {skills, updateSkills, updateWilders} = useWilder()
+    const {skills, dispatch} = useWilder()
 
-    const newSkill = async (event) => {
+    const newSkill: FormEventHandler<HTMLFormElement> = async (event) => {
         event.preventDefault();
-        const data = Object.fromEntries(new FormData(event.target));
-        await createSkill(data.name)
-        updateSkills();
+        const data = Object.fromEntries(new FormData(event.target as HTMLFormElement));
+        await createSkill(data.name as string)
+        dispatch({type: ActionType.UPDATE_SKILLS, payload: {}})
     }
 
-    const deleteSkill = async (id) => {
+    const deleteSkill = async (id: number | string) => {
         await deleteSkillFromServer(id)
-        updateSkills()
-        updateWilders()
+        dispatch({type: ActionType.UPDATE_SKILLS, payload: {}})
+        dispatch({type: ActionType.UPDATE_WILDERS, payload: {}})
     }
 
 
     return (
         <aside className="skill-picker card">
-            <form onSubmit={newSkill} autocomplete="off">
+            <form onSubmit={newSkill} autoComplete="off">
                 <input type="text" placeholder="React" name="name"/>
                 <Submit>OK</Submit>
             </form>
